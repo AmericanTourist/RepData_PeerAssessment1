@@ -254,20 +254,18 @@ legend("topright",c("Week","Weekend"),col=c("red","blue"),lty=1,lwd=2)
 
 So clearly, yes, there is a difference in daily activity between the week and the weekend. Qualitatively, the week sees more morning activity than the weekend, which makes sense; we usually have to wake up and go to work during the week. The weekend also sees more activity in the evening hours as we go out and do stuff, as opposed to coming home from work and crashing during the week.
 
-### Alternatively, by factor
+### Alternatively, panel plot.
 
 ```r
 activity2$Week<-as.factor(ifelse(!is.weekend(activity$date),"Week","Weekend"))
+library(lattice)
+avgActivity<-aggregate(steps~interval + Week, activity2, FUN="mean")
 
-head(activity2)
+xyplot(steps ~ interval | factor(Week),data=activity2,
+       type = "l",
+       lwd=0.8,
+       color=c("blue","red"),
+       layout=c(2,1))
 ```
 
-```
-##         steps       date interval Week
-## 1   1.7169811 2012-10-01        0 Week
-## 63  0.3396226 2012-10-01        5 Week
-## 128 0.1320755 2012-10-01       10 Week
-## 205 0.1509434 2012-10-01       15 Week
-## 264 0.0754717 2012-10-01       20 Week
-## 327 2.0943396 2012-10-01       25 Week
-```
+![](PA1_template_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
